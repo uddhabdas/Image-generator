@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+// !for more connect Uddhab Das-9348412765  !
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,19 +10,21 @@
             margin: 0;
             padding: 0;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSe7Jk2gkzTDCcNq40du1P8ZLVIEtlHfYDgdA&s');
+            background-size: cover;
+            background-position: center;
             color: white;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            background-attachment: fixed;
         }
         .container {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.6);
             padding: 40px 20px;
             border-radius: 20px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(8px);
             text-align: center;
             max-width: 400px;
             width: 90%;
@@ -91,10 +94,7 @@
     </div>
 
     <script>
-        // Disable right-click
         document.addEventListener('contextmenu', (event) => event.preventDefault());
-
-        // Disable F12, Ctrl+Shift+I, and other dev tool shortcuts
         document.addEventListener('keydown', (event) => {
             if (event.key === 'F12' || 
                 (event.ctrlKey && (event.key === 'u' || event.key === 'i' || event.key === 's'))) {
@@ -106,7 +106,7 @@
             event.preventDefault();
             const rollNo = document.getElementById('rollNo').value.trim();
             const container = document.getElementById('imageContainer');
-            container.innerHTML = ''; // Clear previous content
+            container.innerHTML = '';
             if (rollNo) {
                 const imageUrl = `https://gietuerp.in/StudentDocuments/${rollNo}/${rollNo}.JPG`;
                 const img = document.createElement('img');

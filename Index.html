@@ -91,6 +91,17 @@
     </div>
 
     <script>
+        // Disable right-click
+        document.addEventListener('contextmenu', (event) => event.preventDefault());
+
+        // Disable F12, Ctrl+Shift+I, and other dev tool shortcuts
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'F12' || 
+                (event.ctrlKey && (event.key === 'u' || event.key === 'i' || event.key === 's'))) {
+                event.preventDefault();
+            }
+        });
+
         document.getElementById('rollForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const rollNo = document.getElementById('rollNo').value.trim();

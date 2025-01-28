@@ -9,82 +9,93 @@
             margin: 0;
             padding: 0;
             font-family: 'Poppins', sans-serif;
-            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSe7Jk2gkzTDCcNq40du1P8ZLVIEtlHfYDgdA&s');
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-Jz47msDgJvL3iv6_KR12hYuYxMyxI6EFVA&s') no-repeat center center fixed;
             background-size: cover;
-            background-position: center;
-            color: white;
+            color: #333;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-attachment: fixed;
         }
         .container {
-            background: rgba(0, 0, 0, 0.6);
-            padding: 40px 20px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
             max-width: 400px;
             width: 90%;
-            animation: fadeIn 1.5s ease;
+            animation: fadeIn 0.8s ease-in-out;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
         h1 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            color: #ffe0e6;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #333;
         }
         p {
-            font-size: 1rem;
+            font-size: 0.9rem;
             margin-bottom: 20px;
+            color: #555;
         }
         input {
-            width: 85%;
+            width: 100%;
             padding: 12px;
-            border: none;
+            border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 1rem;
             margin-bottom: 20px;
             outline: none;
+            transition: all 0.2s ease;
         }
-        input::placeholder {
-            color: #ffb8c1;
+        input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
         button {
-            padding: 12px 20px;
-            background: #ff4d67;
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
             color: white;
             border: none;
             border-radius: 8px;
             font-size: 1rem;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: all 0.2s ease;
         }
         button:hover {
-            transform: scale(1.1);
-            background: #ff1e3c;
+            background: #0056b3;
         }
         img {
             margin-top: 20px;
             max-width: 100%;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
         .error {
             margin-top: 15px;
             font-size: 1rem;
-            color: #ff8080;
+            color: #e63946;
+        }
+        footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 0.9rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Image Fetcher</h1>
-        <p>Enter your roll number to fetch your image:</p>
+        <h1>Roll Number Image Fetcher</h1>
+        <p>Enter your roll number to retrieve your associated image.</p>
         <form id="rollForm">
             <input type="text" id="rollNo" placeholder="Enter Roll Number" required>
             <button type="submit">Fetch Image</button>
@@ -92,8 +103,13 @@
         <div id="imageContainer"></div>
     </div>
 
+    <footer>Made by Uddhab</footer>
+
     <script>
+        // Disable right-click
         document.addEventListener('contextmenu', (event) => event.preventDefault());
+
+        // Disable F12, Ctrl+Shift+I, and other dev tool shortcuts
         document.addEventListener('keydown', (event) => {
             if (event.key === 'F12' || 
                 (event.ctrlKey && (event.key === 'u' || event.key === 'i' || event.key === 's'))) {
@@ -105,7 +121,7 @@
             event.preventDefault();
             const rollNo = document.getElementById('rollNo').value.trim();
             const container = document.getElementById('imageContainer');
-            container.innerHTML = '';
+            container.innerHTML = ''; // Clear previous content
             if (rollNo) {
                 const imageUrl = `https://gietuerp.in/StudentDocuments/${rollNo}/${rollNo}.JPG`;
                 const img = document.createElement('img');
@@ -119,7 +135,6 @@
                 alert('Please enter a valid roll number!');
             }
         });
-    </script> 
+    </script>
 </body>
-    // !for more connect Uddhab Das-9348412765  !
 </html>

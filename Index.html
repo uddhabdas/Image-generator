@@ -3,69 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Image Viewer</title>
+    <title>Roll Number Image Fetcher</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+       body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0Qp-_dAVekNsVQUXjag5syX-v9iHU2NwJwg&s') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
-            margin-top: 50px;
+            max-width: 400px;
+            width: 90%;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        p {
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            color: #555;
         }
         input {
-            padding: 10px;
-            font-size: 16px;
-            width: 300px;
-            border: 2px solid #ccc;
-            border-radius: 5px;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
         }
         button {
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            background-color: #4CAF50;
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
             color: white;
-            border-radius: 5px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
         button:hover {
-            background-color: #45a049;
+            background: #0056b3;
         }
         img {
             margin-top: 20px;
-            max-width: 90%;
-            border: 2px solid #ccc;
-            border-radius: 10px;
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .error {
+            margin-top: 15px;
+            font-size: 1rem;
+            color: #e63946;
+        }
+        footer {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 0.9rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
         }
     </style>
 </head>
 <body>
-    <h1>Student Image Viewer</h1>
-    <p>Enter your roll number to view your image:</p>
-    <input type="text" id="rollNo" placeholder="Enter Roll Number (e.g., 23cseaiml189)">
-    <br><br>
-    <button onclick="showImage()">Show Image</button>
-    <br><br>
+    <div class="container">
+    <h1>🎓 GIETU Image Fetcher</h1>
+    <p>Enter your roll number to retrieve your associated image.</p>
+    <form id="rollForm">
+        <div class="form-group">
+            <input type="text" id="rollNo" placeholder="Enter Roll Number" required>
+            <span class="tooltip">Enter your unique roll number</span>
+        </div>
+        <button type="submit">🔍 Fetch Image</button>
+    </form>
     <div id="imageContainer"></div>
+</div>
+
+
+    <footer>Made in ❤️ by Uddhab</footer>
 
     <script>
-        function showImage() {
-            const rollNo = document.getElementById("rollNo").value.trim();
-            if (rollNo === "") {
-                alert("Please enter a roll number!");
-                return;
+        // Disable right-click
+        document.addEventListener('contextmenu', (event) => event.preventDefault());
+
+        // Disable F12, Ctrl+Shift+I, and other dev tool shortcuts
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'F12' || 
+                (event.ctrlKey && (event.key === 'u' || event.key === 'i' || event.key === 's'))) {
+                event.preventDefault();
             }
+        });
 
-            // Generate the image URL
-            const imageUrl = `https://gietuerp.in/StudentDocuments/23/${rollNo}.JPG`;
-
-            // Update the image on the page
-            const imageContainer = document.getElementById("imageContainer");
-            imageContainer.innerHTML = `<img src="${imageUrl}" alt="Student Image for Roll No ${rollNo}" onerror="handleImageError()">`;
-        }
-
-        function handleImageError() {
-            const imageContainer = document.getElementById("imageContainer");
-            imageContainer.innerHTML = `<p style="color: red;">Image not found! Please check the roll number.</p>`;
-        }
+        document.getElementById('rollForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const rollNo = document.getElementById('rollNo').value.trim();
+            const container = document.getElementById('imageContainer');
+            container.innerHTML = ''; // Clear previous content
+            if (rollNo) {
+                const imageUrl = `https://gietuerp.in/StudentDocuments/${rollNo}/${rollNo}.JPG`;
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.alt = `Image for Roll Number: ${rollNo}`;
+                img.onerror = () => {
+                    container.innerHTML = '<p class="error">Image not found! Please check the roll number.</p>';
+                };
+                container.appendChild(img);
+            } else {
+                alert('Please enter a valid roll number!');
+            }
+        });
     </script>
 </body>
 </html>

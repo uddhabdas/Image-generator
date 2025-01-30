@@ -5,20 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Roll Number Image Fetcher</title>
     <style>
-       body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-    background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0Qp-_dAVekNsVQUXjag5syX-v9iHU2NwJwg&s') no-repeat center center fixed;
-    background-size: cover;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0Qp-_dAVekNsVQUXjag5syX-v9iHU2NwJwg&s') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
         .container {
             background: rgba(255, 255, 255, 0.9);
             padding: 30px 40px;
@@ -82,6 +81,21 @@
             font-size: 1rem;
             color: #e63946;
         }
+        .download-btn {
+            margin-top: 10px;
+            display: none;
+            background: #28a745;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .download-btn:hover {
+            background: #218838;
+        }
         footer {
             position: absolute;
             bottom: 10px;
@@ -95,20 +109,19 @@
 </head>
 <body>
     <div class="container">
-    <h1>🎓 GIETU Image Fetcher</h1>
-    <p>Enter your roll number to retrieve your associated image.</p>
-    <form id="rollForm">
-        <div class="form-group">
-            <input type="text" id="rollNo" placeholder="Enter Roll Number" required>
-            <span class="tooltip">Enter your unique roll number</span>
-        </div>
-        <button type="submit">🔍 Fetch Image</button>
-    </form>
-    <div id="imageContainer"></div>
-</div>
+        <h1>🎓 GIETU Image Fetcher</h1>
+        <p>Enter your roll number to retrieve your associated image.</p>
+        <form id="rollForm">
+            <div class="form-group">
+                <input type="text" id="rollNo" placeholder="Enter Roll Number" required>
+            </div>
+            <button type="submit">🔍 Fetch Image</button>
+        </form>
+        <div id="imageContainer"></div>
+        <button id="downloadBtn" class="download-btn">⬇️ Download Image</button>
+    </div>
 
-
-    <footer>Made with ❤️ by Uddhab</footer>
+    <footer>Made in ❤️ by Uddhab</footer>
 
     <script>
         // Disable right-click
@@ -126,7 +139,10 @@
             event.preventDefault();
             const rollNo = document.getElementById('rollNo').value.trim();
             const container = document.getElementById('imageContainer');
+            const downloadBtn = document.getElementById('downloadBtn');
             container.innerHTML = ''; // Clear previous content
+            downloadBtn.style.display = "none"; // Hide download button initially
+
             if (rollNo) {
                 const imageUrl = `https://gietuerp.in/StudentDocuments/${rollNo}/${rollNo}.JPG`;
                 const img = document.createElement('img');
@@ -134,7 +150,27 @@
                 img.alt = `Image for Roll Number: ${rollNo}`;
                 img.onerror = () => {
                     container.innerHTML = '<p class="error">Image not found! Please check the roll number.</p>';
+                    downloadBtn.style.display = "none";
                 };
+
+                img.onload = () => {
+                    downloadBtn.style.display = "block";
+                    downloadBtn.onclick = async () => {
+                        try {
+                            const response = await fetch(imageUrl, { mode: 'no-cors' });
+                            const blob = await response.blob();
+                            const link = document.createElement('a');
+                            link.href = URL.createObjectURL(blob);
+                            link.download = `${rollNo}.jpg`;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        } catch (error) {
+                            alert("Error downloading the image. Try saving it manually.");
+                        }
+                    };
+                };
+
                 container.appendChild(img);
             } else {
                 alert('Please enter a valid roll number!');
